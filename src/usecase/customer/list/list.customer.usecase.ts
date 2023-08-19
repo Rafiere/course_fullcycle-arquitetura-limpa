@@ -23,7 +23,7 @@ class OutputMapper {
         return {
             customers: customer.map(customer2 => {
                 return {
-                    id: customer2.id,
+                    id: customer2._id,
                     name: customer2.name,
                     address: {
                         street: customer2.Address.street,
