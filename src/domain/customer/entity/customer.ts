@@ -1,20 +1,23 @@
 import Address from "../value-object/address";
+import Entity from "../../@shared/entity/entity.abstract";
+import NotificationError from "../../@shared/notification/notification.error";
+import CustomerValidatorFactory from "../factory/customer.validator.factory";
 
-export default class Customer {
-  private _id: string;
+export default class Customer extends Entity {
   private _name: string = "";
   private _address!: Address;
   private _active: boolean = false;
   private _rewardPoints: number = 0;
 
   constructor(id: string, name: string) {
-    this._id = id;
+    super();
+    this.id = id;
     this._name = name;
     this.validate();
-  }
 
-  get id(): string {
-    return this._id;
+    if(this.notification.hasErrors()){
+      throw new NotificationError(this.notification.getErrors())
+    }
   }
 
   get name(): string {
@@ -25,13 +28,11 @@ export default class Customer {
     return this._rewardPoints;
   }
 
+  /* Estamos passando o "this", que é o "Customer", assim, a validação será feita
+  * diretamente pela factory, que utiliza o Yup. O "Customer" não sabe disso, apenas
+  * sabe que temos alguém que fará a validação, que, nesse caso, é o Yup. */
   validate() {
-    if (this._id.length === 0) {
-      throw new Error("Id is required");
-    }
-    if (this._name.length === 0) {
-      throw new Error("Name is required");
-    }
+    CustomerValidatorFactory.create().validate(this);
   }
 
   changeName(name: string) {
@@ -42,7 +43,7 @@ export default class Customer {
   get Address(): Address {
     return this._address;
   }
-  
+
   changeAddress(address: Address) {
     this._address = address;
   }
