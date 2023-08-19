@@ -18,7 +18,7 @@ export default class UpdateCustomerUseCase {
         customer.changeAddress(new Address(input.address.street, input.address.number, input.address.zip, input.address.city))
 
         return {
-            id: customer.id,
+            id: customer._id,
             name: customer.name,
             address: {
                 street: customer.Address.street,

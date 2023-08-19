@@ -5,7 +5,7 @@ import UpdateCustomerUseCase from "./update.customer.usecase";
 const customer = CustomerFactory.createWithAddress("John", new Address("Street", 123, "Zip", "City"));
 
 const input = {
-    id: customer.id,
+    id: customer._id,
     name: "John Updated",
     address: {
         street: "Street Updated",
